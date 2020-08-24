@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Firebase Storage</string>
+    <string name="choose_file_title">Choose File</string>
+    <string name="open_button">Open</string>
 </resources>
