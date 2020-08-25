@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/bottomMenu_upload"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_cloud_upload_24"
+        android:title="@string/bottommenu_upload"/>
+    <item
+        android:id="@+id/bottomMenu_list"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_list_24"
+        android:title="@string/bottommenu_list"/>
+</menu>

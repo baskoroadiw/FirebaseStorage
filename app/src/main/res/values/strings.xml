@@ -2,4 +2,6 @@
     <string name="app_name">Firebase Storage</string>
     <string name="choose_file_title">Choose File</string>
     <string name="open_button">Open</string>
+    <string name="bottommenu_upload">Upload</string>
+    <string name="bottommenu_list">List</string>
 </resources>
