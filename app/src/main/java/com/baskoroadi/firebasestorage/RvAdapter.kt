@@ -8,6 +8,8 @@ import kotlinx.android.synthetic.main.rv_list.view.*
 
 class RvAdapter(private val list:ArrayList<Items>) : RecyclerView.Adapter<RvAdapter.MyViewHolder>() {
 
+    var listener: RecyclerViewClickListener? = null
+
     class MyViewHolder(val view: View) : RecyclerView.ViewHolder(view)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -17,6 +19,9 @@ class RvAdapter(private val list:ArrayList<Items>) : RecyclerView.Adapter<RvAdap
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.view.tv_filename.text = list[position].nameFile
+        holder.view.setOnClickListener {
+            listener?.onItemClicked(it,list[position])
+        }
     }
 
     override fun getItemCount(): Int {
