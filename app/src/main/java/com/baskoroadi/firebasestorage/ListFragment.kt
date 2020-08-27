@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import kotlinx.android.synthetic.main.fragment_list.*
@@ -66,5 +67,25 @@ class ListFragment : Fragment(),RecyclerViewClickListener {
 
     override fun onItemClicked(view: View, items: Items) {
         Toast.makeText(context, "dor ${items.nameFile}", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onLongItemClicked(view: View, items: Items) {
+        val builder = context?.let {
+            MaterialAlertDialogBuilder(it, R.style.ThemeOverlay_MaterialComponents_Dialog_Alert)
+                .setTitle("Hapus File")
+                .setMessage("Ingin Hapus File?")
+                .setPositiveButton("Ya") { dialog, which ->
+                    val namefile = items.nameFile
+                    val deleteRef = storageRef.child("images/${namefile}")
+
+                    deleteRef.delete().addOnSuccessListener {
+                        Toast.makeText(context, "$namefile deleted", Toast.LENGTH_SHORT).show()
+                    }.addOnFailureListener {
+                        Toast.makeText(context, "Failed delete", Toast.LENGTH_SHORT).show()
+                    }
+                }
+                .setNegativeButton("Tidak", null)
+        }
+        builder?.create()?.show()
     }
 }

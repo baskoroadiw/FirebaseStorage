@@ -2,8 +2,10 @@ package com.baskoroadi.firebasestorage
 
 import android.content.ActivityNotFoundException
 import android.content.Intent
+import android.database.Cursor
 import android.net.Uri
 import android.os.Bundle
+import android.provider.OpenableColumns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +16,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import kotlinx.android.synthetic.main.fragment_upload.*
-import java.io.File
+
 
 class UploadFragment : Fragment() {
 
@@ -26,7 +28,11 @@ class UploadFragment : Fragment() {
     private lateinit var storage: FirebaseStorage
     private lateinit var storageRef: StorageReference
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_upload, container, false)
     }
 
@@ -59,7 +65,7 @@ class UploadFragment : Fragment() {
 
         when(requestCode){
             Constants.FILE_CHOOSE_CODE ->
-                if (resultCode == AppCompatActivity.RESULT_OK){
+                if (resultCode == AppCompatActivity.RESULT_OK) {
                     val filePath = data?.data!!
                     uploadFile(filePath)
                 }
@@ -67,11 +73,11 @@ class UploadFragment : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
     }
 
-    private fun uploadFile(fileUri : Uri){
+    private fun uploadFile(fileUri: Uri){
         progressBar.visibility = View.VISIBLE
 
-        val file = Uri.fromFile(File(fileUri.path.toString()))
-        val uploadRef = storageRef.child("images/${file.lastPathSegment}")
+        val namefile = getFileName(fileUri).toString()
+        val uploadRef = storageRef.child("images/${namefile}")
         val uploadTask = uploadRef.putFile(fileUri)
 
         uploadTask.addOnFailureListener {
@@ -80,5 +86,27 @@ class UploadFragment : Fragment() {
             progressBar.visibility = View.GONE
             Snackbar.make(viewSnack,"Upload Success", Snackbar.LENGTH_SHORT).show()
         }
+    }
+
+    private fun getFileName(uri: Uri): String? {
+        var result: String? = null
+        if (uri.scheme == "content") {
+            val cursor: Cursor? = activity?.contentResolver?.query(uri, null, null, null, null)
+            try {
+                if (cursor != null && cursor.moveToFirst()) {
+                    result = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME))
+                }
+            } finally {
+                cursor?.close()
+            }
+        }
+        if (result == null) {
+            result = uri.path
+            val cut = result!!.lastIndexOf('/')
+            if (cut != -1) {
+                result = result.substring(cut + 1)
+            }
+        }
+        return result
     }
 }

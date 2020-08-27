@@ -22,6 +22,10 @@ class RvAdapter(private val list:ArrayList<Items>) : RecyclerView.Adapter<RvAdap
         holder.view.setOnClickListener {
             listener?.onItemClicked(it,list[position])
         }
+        holder.view.setOnLongClickListener {
+            listener?.onLongItemClicked(it,list[position])
+            true
+        }
     }
 
     override fun getItemCount(): Int {
