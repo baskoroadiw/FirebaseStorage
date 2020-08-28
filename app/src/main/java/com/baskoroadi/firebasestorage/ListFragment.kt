@@ -1,5 +1,6 @@
 package com.baskoroadi.firebasestorage
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -66,7 +67,10 @@ class ListFragment : Fragment(),RecyclerViewClickListener {
     }
 
     override fun onItemClicked(view: View, items: Items) {
-        Toast.makeText(context, "dor ${items.nameFile}", Toast.LENGTH_SHORT).show()
+        val intent = Intent(context,DetailFileActivity::class.java).apply {
+            putExtra("extraNameFile",items.nameFile)
+        }
+        startActivity(intent)
     }
 
     override fun onLongItemClicked(view: View, items: Items) {

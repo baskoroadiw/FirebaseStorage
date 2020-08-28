@@ -46,10 +46,11 @@ class UploadFragment : Fragment() {
         storageRef = storage.reference
 
         buttonBrowse.setOnClickListener {
-            val intent = Intent()
-                .setType("*/*")
-                .setAction(Intent.ACTION_GET_CONTENT)
-
+            val intent = Intent().apply {
+                type = "image/*"
+                action = Intent.ACTION_GET_CONTENT
+            }
+            
             try {
                 startActivityForResult(
                     Intent.createChooser(intent, "Select a File to Upload"),
@@ -81,10 +82,10 @@ class UploadFragment : Fragment() {
         val uploadTask = uploadRef.putFile(fileUri)
 
         uploadTask.addOnFailureListener {
-            Snackbar.make(viewSnack,"Error", Snackbar.LENGTH_SHORT).show()
+            Snackbar.make(viewSnack, "Error", Snackbar.LENGTH_SHORT).show()
         }.addOnSuccessListener {
             progressBar.visibility = View.GONE
-            Snackbar.make(viewSnack,"Upload Success", Snackbar.LENGTH_SHORT).show()
+            Snackbar.make(viewSnack, "Upload Success", Snackbar.LENGTH_SHORT).show()
         }
     }
 

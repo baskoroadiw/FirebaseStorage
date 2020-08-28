@@ -4,4 +4,7 @@
     <string name="open_button">Open</string>
     <string name="bottommenu_upload">Upload</string>
     <string name="bottommenu_list">List</string>
+    <string name="detail_file_title">Detail File</string>
+    <string name="content_description_1">Ini adalah gambar dari file yang dipilih</string>
+    <string name="content_description_2">Ini adalah gambar fullscreen dari file yang dipilih</string>
 </resources>
