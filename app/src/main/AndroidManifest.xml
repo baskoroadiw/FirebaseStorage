@@ -14,7 +14,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".DetailImageActivity"
-            android:theme="@style/AppThemeNoActionBar" />
+            android:theme="@style/StatusbarBlack" />
         <activity
             android:name=".DetailFileActivity"
             android:theme="@style/AppThemeNoActionBar" />
